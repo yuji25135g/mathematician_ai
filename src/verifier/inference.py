@@ -1,5 +1,5 @@
 from typing import List
-from proofTree import Sequent
+from Sequent import Sequent
 
 INFERENCE_RULES = [
     "LW",
