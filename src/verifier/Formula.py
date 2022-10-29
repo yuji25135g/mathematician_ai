@@ -12,6 +12,9 @@ class Formula:
     def __eq__(self, other: "Formula") -> bool:
         return self.string_formula == other.string_formula
 
+    def __hash__(self) -> int:
+        return hash(self.string_formula)
+
     def get_top_terms(self) -> Tuple[List[str], str]:
         if self.string_formula[0] == "!":
             return [self.string_formula[2 : len(self.string_formula) - 1]], "!"
