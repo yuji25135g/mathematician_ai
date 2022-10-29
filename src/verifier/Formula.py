@@ -13,6 +13,8 @@ class Formula:
         return self.string_formula == other.string_formula
 
     def get_top_terms(self) -> Tuple[List[str], str]:
+        if self.string_formula[0] == "!":
+            return [self.string_formula[2 : len(self.string_formula) - 1]], "!"
         res = []
         tmp_idx = 0
         s_num = 0
@@ -31,7 +33,8 @@ class Formula:
         for s in res:
             operator_str = operator_str.replace(s, "")
         operator_str = operator_str.replace("()", "")
-        return res, operator_str[0]
+        operator = "" if operator_str == "" else operator_str[0]
+        return res, operator
 
     @staticmethod
     def validate(string: str) -> bool:
