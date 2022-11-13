@@ -1,5 +1,6 @@
 from typing import List
 from Sequent import Sequent
+from Formula import Formula
 
 INFERENCE_RULES = [
     "LW",
@@ -64,17 +65,13 @@ def is_valid_inference(
                 return False
 
         case "LF":
-            if len(assumption_sequent_list) != 1:
-                return False
-            if "0" in conclusion_sequent.left:
+            if Formula("0") in conclusion_sequent.left:
                 return True
             else:
                 return False
 
         case "RT":
-            if len(assumption_sequent_list) != 1:
-                return False
-            if "1" in conclusion_sequent.right:
+            if Formula("1") in conclusion_sequent.right:
                 return True
             else:
                 return False
