@@ -212,6 +212,10 @@ def is_valid_inference(
         case "R|1" | "R|2":
             if len(assumption_sequent_list) != 1:
                 return False
+
+            if assumption_sequent_list[0].left != conclusion_sequent.left:
+                return False
+
             ass_rest = assumption_sequent_list[0].right - (
                 assumption_sequent_list[0].right & conclusion_sequent.right
             )
@@ -223,7 +227,7 @@ def is_valid_inference(
 
             ass_top_nodes, ass_op = list(ass_rest)[0].get_top_terms()
             con_top_nodes, con_op = list(con_rest)[0].get_top_terms()
-            if con_op != "&":
+            if con_op != "|":
                 return False
 
             if ass_op == "&":
