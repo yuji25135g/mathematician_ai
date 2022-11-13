@@ -297,6 +297,9 @@ def is_valid_inference(
                 conclusion_sequent.right & assumption_sequent_list[0].right
             )
 
+            if len(ass_left_rest) != 1 or len(con_right_rest) != 1:
+                return False
+
             if (
                 f"!({list(ass_left_rest)[0].string_formula})"
                 == list(con_right_rest)[0].string_formula
