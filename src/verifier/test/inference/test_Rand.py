@@ -8,7 +8,7 @@ from inference import is_valid_inference
 @pytest.mark.parametrize(
     ("assumption_sequent_list", "conclusion_sequent", "expected"),
     [
-        # {A} |- {B, C}   A |- {B, D}
+        # {A} |- {B, C}   {A} |- {B, D}
         # ----------------------------
         # {A} |- {B, C & D}
         (
@@ -19,7 +19,7 @@ from inference import is_valid_inference
             Sequent({Formula("A")}, {Formula("B"), Formula("(C)&(D)")}),
             True,
         ),
-        # {A} |- {B, C}   A |- {B, D}
+        # {A} |- {B, C}   {A} |- {B, D}
         # ----------------------------
         # {A} |- {B, C | D}
         (
@@ -40,7 +40,7 @@ from inference import is_valid_inference
             Sequent({Formula("A")}, {Formula("B"), Formula("(C)&(D)")}),
             False,
         ),
-        # {E} |- {B, C}   A |- {B, D}
+        # {E} |- {B, C}   {A} |- {B, D}
         # ----------------------------
         # {A} |- {B, C & D}
         (
