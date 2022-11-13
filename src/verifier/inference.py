@@ -57,7 +57,7 @@ def is_valid_inference(
                 return False
             if (
                 assumption_sequent_list[0].left == conclusion_sequent.left
-                and assumption_sequent_list[0].right == conclusion_sequent.left
+                and assumption_sequent_list[0].right == conclusion_sequent.right
             ):
                 return True
             else:
