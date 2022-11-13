@@ -49,7 +49,7 @@ from inference import is_valid_inference
                 Sequent({Formula("A")}, {Formula("B"), Formula("D")}),
             ],
             Sequent({Formula("A")}, {Formula("B"), Formula("(C)&(D)")}),
-            True,
+            False,
         ),
     ],
 )

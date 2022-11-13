@@ -107,6 +107,12 @@ def is_valid_inference(
             if len(assumption_sequent_list) != 2:
                 return False
 
+            if (
+                assumption_sequent_list[0].left != conclusion_sequent.left
+                or assumption_sequent_list[1].left != conclusion_sequent.left
+            ):
+                return False
+
             if len(assumption_sequent_list[0].right) != len(
                 assumption_sequent_list[1].right
             ) or len(assumption_sequent_list[0].right) != len(conclusion_sequent.right):
