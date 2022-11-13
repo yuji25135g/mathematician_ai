@@ -3,7 +3,6 @@ from typing import List, Tuple
 
 class Formula:
     def __init__(self, string_formula: str) -> None:
-        # e.g. "(A) | ((!B) & (C)) | ((0) & (1))"
         if Formula.validate(string_formula):
             self.string_formula = Formula.format(string_formula)
         else:
