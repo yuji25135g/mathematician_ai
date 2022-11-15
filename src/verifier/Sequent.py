@@ -8,3 +8,6 @@ class Sequent:
 
     def is_axiom(self) -> bool:
         return self.left == self.right
+
+    def is_equal_to(self, other: "Sequent"):
+        return self.left == other.left and self.right == other.right
