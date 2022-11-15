@@ -10,4 +10,4 @@ class ProofTree:
         return
 
     def verify(self) -> bool:
-        return True
+        return self.root.verify_subtree()
