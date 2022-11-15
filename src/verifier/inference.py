@@ -1,8 +1,8 @@
-from typing import List
+from typing import List, TypeAlias, Literal
 from Sequent import Sequent
 from Formula import Formula
 
-INFERENCE_RULES = [
+InferenceStr: TypeAlias = Literal[
     "LW",
     "RW",
     "LC",
@@ -21,11 +21,14 @@ INFERENCE_RULES = [
     "R->",
     "L!",
     "R!",
+    "AX",
 ]
 
 
 def is_valid_inference(
-    assumption_sequent_list: List[Sequent], conclusion_sequent: Sequent, inference: str
+    assumption_sequent_list: List[Sequent],
+    conclusion_sequent: Sequent,
+    inference: InferenceStr,
 ) -> bool:
     match inference:
         case "LW":
