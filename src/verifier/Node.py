@@ -26,9 +26,10 @@ class Node:
         else:
             # DFS
             if is_valid_inference(
-                self.get_children_sequent_list, self.sequent, self.inference
+                self.get_children_sequent_list(), self.sequent, self.inference
             ):
                 for child_node in self.children:
                     return child_node.verify_subtree()
             else:
+                print(self.inference)
                 return False
