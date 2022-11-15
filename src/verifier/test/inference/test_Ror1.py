@@ -34,10 +34,5 @@ from inference import is_valid_inference
         ),
     ],
 )
-def test_Ror1(
-    assumption_sequent_list: List[Sequent], conclusion_sequent: Sequent, expected: bool
-):
-    assert (
-        is_valid_inference(assumption_sequent_list, conclusion_sequent, "R|1")
-        == expected
-    )
+def test_Ror1(assumption_sequent_list: List[Sequent], conclusion_sequent: Sequent, expected: bool):
+    assert is_valid_inference(assumption_sequent_list, conclusion_sequent, "R|1") == expected

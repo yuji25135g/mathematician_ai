@@ -25,9 +25,7 @@ class Node:
         # if self is a not leaf
         else:
             # DFS
-            if is_valid_inference(
-                self.get_children_sequent_list(), self.sequent, self.inference
-            ):
+            if is_valid_inference(self.get_children_sequent_list(), self.sequent, self.inference):
                 for child_node in self.children:
                     return child_node.verify_subtree()
             else:

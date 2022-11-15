@@ -26,10 +26,5 @@ from inference import is_valid_inference
         ),
     ],
 )
-def test_RW(
-    assumption_sequent_list: List[Sequent], conclusion_sequent: Sequent, expected: bool
-):
-    assert (
-        is_valid_inference(assumption_sequent_list, conclusion_sequent, "RW")
-        == expected
-    )
+def test_RW(assumption_sequent_list: List[Sequent], conclusion_sequent: Sequent, expected: bool):
+    assert is_valid_inference(assumption_sequent_list, conclusion_sequent, "RW") == expected

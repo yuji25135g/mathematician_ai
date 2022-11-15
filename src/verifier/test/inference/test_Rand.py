@@ -53,10 +53,5 @@ from inference import is_valid_inference
         ),
     ],
 )
-def test_Rand(
-    assumption_sequent_list: List[Sequent], conclusion_sequent: Sequent, expected: bool
-):
-    assert (
-        is_valid_inference(assumption_sequent_list, conclusion_sequent, "R&")
-        == expected
-    )
+def test_Rand(assumption_sequent_list: List[Sequent], conclusion_sequent: Sequent, expected: bool):
+    assert is_valid_inference(assumption_sequent_list, conclusion_sequent, "R&") == expected

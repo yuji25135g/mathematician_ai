@@ -26,10 +26,5 @@ from inference import is_valid_inference
         ),
     ],
 )
-def test_RT(
-    assumption_sequent_list: List[Sequent], conclusion_sequent: Sequent, expected: bool
-):
-    assert (
-        is_valid_inference(assumption_sequent_list, conclusion_sequent, "RT")
-        == expected
-    )
+def test_RT(assumption_sequent_list: List[Sequent], conclusion_sequent: Sequent, expected: bool):
+    assert is_valid_inference(assumption_sequent_list, conclusion_sequent, "RT") == expected

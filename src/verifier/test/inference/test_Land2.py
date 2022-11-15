@@ -34,10 +34,5 @@ from inference import is_valid_inference
         ),
     ],
 )
-def test_Land2(
-    assumption_sequent_list: List[Sequent], conclusion_sequent: Sequent, expected: bool
-):
-    assert (
-        is_valid_inference(assumption_sequent_list, conclusion_sequent, "L&2")
-        == expected
-    )
+def test_Land2(assumption_sequent_list: List[Sequent], conclusion_sequent: Sequent, expected: bool):
+    assert is_valid_inference(assumption_sequent_list, conclusion_sequent, "L&2") == expected

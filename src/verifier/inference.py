@@ -48,8 +48,7 @@ def is_valid_inference(
                 return False
             if (
                 conclusion_sequent.right > assumption_sequent_list[0].right
-                and len(conclusion_sequent.right - assumption_sequent_list[0].right)
-                == 1
+                and len(conclusion_sequent.right - assumption_sequent_list[0].right) == 1
                 and assumption_sequent_list[0].left == conclusion_sequent.left
             ):
                 return True
@@ -84,12 +83,8 @@ def is_valid_inference(
                 return False
             if assumption_sequent_list[0].right != conclusion_sequent.right:
                 return False
-            ass_rest = assumption_sequent_list[0].left - (
-                assumption_sequent_list[0].left & conclusion_sequent.left
-            )
-            con_rest = conclusion_sequent.left - (
-                assumption_sequent_list[0].left & conclusion_sequent.left
-            )
+            ass_rest = assumption_sequent_list[0].left - (assumption_sequent_list[0].left & conclusion_sequent.left)
+            con_rest = conclusion_sequent.left - (assumption_sequent_list[0].left & conclusion_sequent.left)
             if len(ass_rest) != 1 or len(con_rest) != 1:
                 return False
 
@@ -116,14 +111,12 @@ def is_valid_inference(
             ):
                 return False
 
-            if len(assumption_sequent_list[0].right) != len(
-                assumption_sequent_list[1].right
-            ) or len(assumption_sequent_list[0].right) != len(conclusion_sequent.right):
+            if len(assumption_sequent_list[0].right) != len(assumption_sequent_list[1].right) or len(
+                assumption_sequent_list[0].right
+            ) != len(conclusion_sequent.right):
                 return False
 
-            ass_intersection = (
-                assumption_sequent_list[0].right & assumption_sequent_list[1].right
-            )
+            ass_intersection = assumption_sequent_list[0].right & assumption_sequent_list[1].right
             ass_rest_1 = assumption_sequent_list[0].right - ass_intersection
             ass_rest_2 = assumption_sequent_list[1].right - ass_intersection
             if len(ass_rest_1) != 1 or len(ass_rest_2) != 1:
@@ -142,14 +135,10 @@ def is_valid_inference(
                 if (set(ass_top_nodes_1) | set(ass_top_nodes_2)) == set(con_top_nodes):
                     return True
             elif ass_op_1 == "&":
-                if (set(ass_top_nodes_1) | {list(ass_rest_2)[0].string_formula}) == set(
-                    con_top_nodes
-                ):
+                if (set(ass_top_nodes_1) | {list(ass_rest_2)[0].string_formula}) == set(con_top_nodes):
                     return True
             elif ass_op_2 == "&":
-                if (set(ass_top_nodes_2) | {list(ass_rest_1)[0].string_formula}) == set(
-                    con_top_nodes
-                ):
+                if (set(ass_top_nodes_2) | {list(ass_rest_1)[0].string_formula}) == set(con_top_nodes):
                     return True
             else:
                 if {
@@ -169,14 +158,12 @@ def is_valid_inference(
             ):
                 return False
 
-            if len(assumption_sequent_list[0].left) != len(
-                assumption_sequent_list[1].left
-            ) or len(assumption_sequent_list[0].left) != len(conclusion_sequent.left):
+            if len(assumption_sequent_list[0].left) != len(assumption_sequent_list[1].left) or len(
+                assumption_sequent_list[0].left
+            ) != len(conclusion_sequent.left):
                 return False
 
-            ass_intersection = (
-                assumption_sequent_list[0].left & assumption_sequent_list[1].left
-            )
+            ass_intersection = assumption_sequent_list[0].left & assumption_sequent_list[1].left
             ass_rest_1 = assumption_sequent_list[0].left - ass_intersection
             ass_rest_2 = assumption_sequent_list[1].left - ass_intersection
             if len(ass_rest_1) != 1 or len(ass_rest_2) != 1:
@@ -195,14 +182,10 @@ def is_valid_inference(
                 if (set(ass_top_nodes_1) | set(ass_top_nodes_2)) == set(con_top_nodes):
                     return True
             elif ass_op_1 == "|":
-                if (set(ass_top_nodes_1) | {list(ass_rest_2)[0].string_formula}) == set(
-                    con_top_nodes
-                ):
+                if (set(ass_top_nodes_1) | {list(ass_rest_2)[0].string_formula}) == set(con_top_nodes):
                     return True
             elif ass_op_2 == "|":
-                if (set(ass_top_nodes_2) | {list(ass_rest_1)[0].string_formula}) == set(
-                    con_top_nodes
-                ):
+                if (set(ass_top_nodes_2) | {list(ass_rest_1)[0].string_formula}) == set(con_top_nodes):
                     return True
             else:
                 if {
@@ -219,12 +202,8 @@ def is_valid_inference(
             if assumption_sequent_list[0].left != conclusion_sequent.left:
                 return False
 
-            ass_rest = assumption_sequent_list[0].right - (
-                assumption_sequent_list[0].right & conclusion_sequent.right
-            )
-            con_rest = conclusion_sequent.right - (
-                assumption_sequent_list[0].right & conclusion_sequent.right
-            )
+            ass_rest = assumption_sequent_list[0].right - (assumption_sequent_list[0].right & conclusion_sequent.right)
+            con_rest = conclusion_sequent.right - (assumption_sequent_list[0].right & conclusion_sequent.right)
             if len(ass_rest) != 1 or len(con_rest) != 1:
                 return False
 
@@ -246,32 +225,25 @@ def is_valid_inference(
                 return False
             if (
                 assumption_sequent_list[0].right <= conclusion_sequent.right
-                or len(assumption_sequent_list[0].right)
-                != len(conclusion_sequent.right) + 1
+                or len(assumption_sequent_list[0].right) != len(conclusion_sequent.right) + 1
             ):
                 return False
 
             if (
                 assumption_sequent_list[0].left >= conclusion_sequent.left
-                or len(assumption_sequent_list[0].left)
-                != len(conclusion_sequent.left) - 1
+                or len(assumption_sequent_list[0].left) != len(conclusion_sequent.left) - 1
             ):
                 return False
 
             ass_right_rest = assumption_sequent_list[0].right - (
                 assumption_sequent_list[0].right & conclusion_sequent.right
             )
-            con_left_rest = conclusion_sequent.left - (
-                conclusion_sequent.left & assumption_sequent_list[0].left
-            )
+            con_left_rest = conclusion_sequent.left - (conclusion_sequent.left & assumption_sequent_list[0].left)
 
             if len(ass_right_rest) != 1 or len(con_left_rest) != 1:
                 return False
 
-            if (
-                f"!({list(ass_right_rest)[0].string_formula})"
-                == list(con_left_rest)[0].string_formula
-            ):
+            if f"!({list(ass_right_rest)[0].string_formula})" == list(con_left_rest)[0].string_formula:
                 return True
             else:
                 return False
@@ -281,32 +253,25 @@ def is_valid_inference(
                 return False
             if (
                 assumption_sequent_list[0].left <= conclusion_sequent.left
-                or len(assumption_sequent_list[0].left)
-                != len(conclusion_sequent.left) + 1
+                or len(assumption_sequent_list[0].left) != len(conclusion_sequent.left) + 1
             ):
                 return False
 
             if (
                 assumption_sequent_list[0].right >= conclusion_sequent.right
-                or len(assumption_sequent_list[0].right)
-                != len(conclusion_sequent.right) - 1
+                or len(assumption_sequent_list[0].right) != len(conclusion_sequent.right) - 1
             ):
                 return False
 
             ass_left_rest = assumption_sequent_list[0].left - (
                 assumption_sequent_list[0].left & conclusion_sequent.left
             )
-            con_right_rest = conclusion_sequent.right - (
-                conclusion_sequent.right & assumption_sequent_list[0].right
-            )
+            con_right_rest = conclusion_sequent.right - (conclusion_sequent.right & assumption_sequent_list[0].right)
 
             if len(ass_left_rest) != 1 or len(con_right_rest) != 1:
                 return False
 
-            if (
-                f"!({list(ass_left_rest)[0].string_formula})"
-                == list(con_right_rest)[0].string_formula
-            ):
+            if f"!({list(ass_left_rest)[0].string_formula})" == list(con_right_rest)[0].string_formula:
                 return True
             else:
                 return False
