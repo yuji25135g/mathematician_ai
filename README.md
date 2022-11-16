@@ -8,25 +8,25 @@
 
 ```bash
 cd mathematician_ai
-docker-compose build
+docker compose build
 ```
 
 3. Run container.
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 4. Execute a bash command in a running container.
 
 ```bash
-docker-compose exec python bash
+docker compose exec python bash
 ```
 
 **NOTE** : Run this command when you stop running container
 
 ```bash
-docker-compose stop
+docker compose stop
 ```
 
 ## Test
