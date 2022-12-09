@@ -21,6 +21,8 @@ class Node:
     def verify_subtree(self) -> bool:
         # if self is a leaf
         if len(self.children) == 0:
+            if self.inference == "LF" or self.inference == "RT":
+                return is_valid_inference([], self.sequent, self.inference)
             return self.sequent.is_axiom()
         # if self is a not leaf
         else:
