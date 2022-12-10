@@ -10,29 +10,29 @@ from inference import is_valid_inference
     [
         # {A, B} |- {C}
         # -------------
-        # {A & D, B} |- {C}
+        # {A & B} |- {C}
         (
             [Sequent({Formula("A"), Formula("B")}, {Formula("C")})],
-            Sequent({Formula("(A)&(D)"), Formula("B")}, {Formula("C")}),
+            Sequent({Formula("(A)&(B)")}, {Formula("C")}),
             True,
         ),
         # {A, B} |- {C}
         # -------------
-        # {A & D, B} |- {D}
+        # {A & B} |- {D}
         (
             [Sequent({Formula("A"), Formula("B")}, {Formula("C")})],
-            Sequent({Formula("(A)&(D)"), Formula("B")}, {Formula("D")}),
+            Sequent({Formula("(A)&(B)")}, {Formula("D")}),
             False,
         ),
         # {A, B} |- {C}
         # -------------
-        # {A & D, !B} |- {C}
+        # {A & !B} |- {C}
         (
             [Sequent({Formula("A"), Formula("B")}, {Formula("C")})],
-            Sequent({Formula("(A)&(D)"), Formula("!(B)")}, {Formula("C")}),
+            Sequent({Formula("(A)&(!(B))")}, {Formula("C")}),
             False,
         ),
     ],
 )
-def test_Land1(assumption_sequent_list: List[Sequent], conclusion_sequent: Sequent, expected: bool):
-    assert is_valid_inference(assumption_sequent_list, conclusion_sequent, "L&1") == expected
+def test_Land(assumption_sequent_list: List[Sequent], conclusion_sequent: Sequent, expected: bool):
+    assert is_valid_inference(assumption_sequent_list, conclusion_sequent, "L&") == expected

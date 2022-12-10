@@ -11,12 +11,10 @@ InferenceStr: TypeAlias = Literal[
     "RX",
     "LF",
     "RT",
-    "L&1",
-    "L&2",
+    "L&",
     "R&",
     "L|",
-    "R|1",
-    "R|2",
+    "R|",
     "L->",
     "R->",
     "L!",
@@ -78,27 +76,21 @@ def is_valid_inference(
             else:
                 return False
 
-        case "L&1" | "L&2":
+        case "L&":
             if len(assumption_sequent_list) != 1:
                 return False
+
             if assumption_sequent_list[0].right != conclusion_sequent.right:
                 return False
+
             ass_rest = assumption_sequent_list[0].left - (assumption_sequent_list[0].left & conclusion_sequent.left)
             con_rest = conclusion_sequent.left - (assumption_sequent_list[0].left & conclusion_sequent.left)
-            if len(ass_rest) != 1 or len(con_rest) != 1:
+            if len(ass_rest) != 2 or len(con_rest) != 1:
                 return False
 
-            ass_top_nodes, ass_op = list(ass_rest)[0].get_top_terms()
             con_top_nodes, con_op = list(con_rest)[0].get_top_terms()
-            if con_op != "&":
-                return False
-
-            if ass_op == "&":
-                if set(ass_top_nodes) <= set(con_top_nodes):
-                    return True
-            else:
-                if list(ass_rest)[0].string_formula in con_top_nodes:
-                    return True
+            if con_op == "&" and set(con_top_nodes) == set(map(lambda f: f.string_formula, ass_rest)):
+                return True
             return False
 
         case "R&":
@@ -195,7 +187,7 @@ def is_valid_inference(
                     return True
             return False
 
-        case "R|1" | "R|2":
+        case "R|":
             if len(assumption_sequent_list) != 1:
                 return False
 
@@ -204,20 +196,17 @@ def is_valid_inference(
 
             ass_rest = assumption_sequent_list[0].right - (assumption_sequent_list[0].right & conclusion_sequent.right)
             con_rest = conclusion_sequent.right - (assumption_sequent_list[0].right & conclusion_sequent.right)
-            if len(ass_rest) != 1 or len(con_rest) != 1:
+            if len(ass_rest) != 2 or len(con_rest) != 1:
                 return False
 
-            ass_top_nodes, ass_op = list(ass_rest)[0].get_top_terms()
+            ass_rest = assumption_sequent_list[0].right - (assumption_sequent_list[0].right & conclusion_sequent.right)
+            con_rest = conclusion_sequent.right - (assumption_sequent_list[0].right & conclusion_sequent.right)
+            if len(ass_rest) != 2 or len(con_rest) != 1:
+                return False
+
             con_top_nodes, con_op = list(con_rest)[0].get_top_terms()
-            if con_op != "|":
-                return False
-
-            if ass_op == "&":
-                if set(ass_top_nodes) <= set(con_top_nodes):
-                    return True
-            else:
-                if list(ass_rest)[0].string_formula in con_top_nodes:
-                    return True
+            if con_op == "|" and set(con_top_nodes) == set(map(lambda f: f.string_formula, ass_rest)):
+                return True
             return False
 
         case "L!":

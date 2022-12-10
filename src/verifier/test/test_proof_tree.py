@@ -45,24 +45,12 @@ from ProofTree import ProofTree
             ProofTree(
                 Node(
                     Sequent(set(), {Formula("(A)|(!(A))")}),
-                    "RC",
+                    "R|",
                     [
                         Node(
-                            Sequent(set(), {Formula("(A)|(!(A))"), Formula("(A)|(!(A))")}),
-                            "R|2",
-                            [
-                                Node(
-                                    Sequent(set(), {Formula("A"), Formula("(A)|(!(A))")}),
-                                    "R|1",
-                                    [
-                                        Node(
-                                            Sequent(set(), {Formula("A"), Formula("!(A)")}),
-                                            "R!",
-                                            [Node(Sequent({Formula("A")}, {Formula("A")}))],
-                                        )
-                                    ],
-                                )
-                            ],
+                            Sequent(set(), {Formula("A"), Formula("!(A)")}),
+                            "R!",
+                            [Node(Sequent({Formula("A")}, {Formula("A")}))],
                         )
                     ],
                 )
