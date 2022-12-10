@@ -34,6 +34,8 @@ def test_eq(formula1, formula2, expected):
             Formula("(A)|((!(B))|(C))|(!((!(C))&(D)))"),
             (["A", "(!(B))|(C)", "!((!(C))&(D))"], "|"),
         ),
+        # 演算子が 「>」
+        (Formula("(A)>(B)"), (["A", "B"], ">")),
     ],
 )
 def test_get_top_terms(formula: Formula, result: Tuple[List[str], str]):

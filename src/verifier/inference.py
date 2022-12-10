@@ -15,8 +15,8 @@ InferenceStr: TypeAlias = Literal[
     "R&",
     "L|",
     "R|",
-    "L->",
-    "R->",
+    "L>",
+    "R>",
     "L!",
     "R!",
     "AX",
@@ -207,6 +207,45 @@ def is_valid_inference(
             con_top_nodes, con_op = list(con_rest)[0].get_top_terms()
             if con_op == "|" and set(con_top_nodes) == set(map(lambda f: f.string_formula, ass_rest)):
                 return True
+            return False
+
+        case "L>":
+            if len(assumption_sequent_list) != 2:
+                return False
+
+            for f1 in assumption_sequent_list[0].right:
+                for f2 in assumption_sequent_list[1].left:
+                    if conclusion_sequent.left == {
+                        Formula(f"({f1.string_formula})>({f2.string_formula})")
+                    } | assumption_sequent_list[0].left | assumption_sequent_list[1].left - {f2}:
+                        if (
+                            conclusion_sequent.right
+                            == assumption_sequent_list[0].right - {f1} | assumption_sequent_list[1].right
+                        ):
+                            return True
+
+            return False
+
+        case "R>":
+            if len(assumption_sequent_list) != 1:
+                return False
+
+            ass_left_rest = assumption_sequent_list[0].left - (
+                assumption_sequent_list[0].left & conclusion_sequent.left
+            )
+            ass_right_rest = assumption_sequent_list[0].right - (
+                assumption_sequent_list[0].right & conclusion_sequent.right
+            )
+            con_right_rest = conclusion_sequent.right - (assumption_sequent_list[0].right & conclusion_sequent.right)
+
+            if len(ass_left_rest) != 1 or len(ass_right_rest) != 1:
+                return False
+
+            if {
+                Formula(f"({list(ass_left_rest)[0].string_formula})>({list(ass_right_rest)[0].string_formula})")
+            } == con_right_rest:
+                return True
+
             return False
 
         case "L!":
