@@ -1,9 +1,11 @@
 import random
 import numpy as np
 
-from ..verifier.Formula import Formula
-from ..verifier.Sequent import Sequent
-import displaySequent
+import os, sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from verifier.Formula import Formula
+from verifier.Sequent import Sequent
 
 sequent_maxLen = 8  # シーケントの両辺の論理式の上限
 fml_maxLen = 8  # 各論理式に出現する命題変数の総数の上限
@@ -161,14 +163,3 @@ def generateUnAction(state, actionList, actionProbs):
                 break  # 問題がなければ終了
         actionList.pop(-1)  # 再度末尾のアクションを抽選するため, 一度消す
     return [next_state, action]
-
-
-# 以下動作テスト
-
-seq1 = Sequent({Formula("C"), Formula("B")}, {Formula("!(A)")})
-
-print(displaySequent.displaySeq(seq1))
-
-result = generateUnAction(seq1, [["L!", "!(B)", ""], ["R!", "A", ""]], [0.2, 0.3, 0.5])
-print(result[1])
-print(displaySequent.displaySeq(result[0]))

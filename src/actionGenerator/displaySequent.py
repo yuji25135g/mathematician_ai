@@ -1,5 +1,8 @@
-from ..verifier.Formula import Formula
-from ..verifier.Sequent import Sequent
+import os, sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from verifier.Formula import Formula
+from verifier.Sequent import Sequent
 
 
 def displaySeq(seq):

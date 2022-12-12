@@ -1,4 +1,5 @@
-from Formula import Formula
+# verifier.FormulaとするとSequent.py単独で実行できなくなる
+from verifier.Formula import Formula
 
 
 class Sequent:
