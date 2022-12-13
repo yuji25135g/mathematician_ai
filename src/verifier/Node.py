@@ -14,6 +14,15 @@ class Node:
         self.inference = inference
         self.children = children
 
+    def __str__(self) -> str:
+        inference_line_length = (
+            sum(map(lambda n: len(str(n.sequent)), self.children)) + 5 * len(self.children)
+            if len(self.children) > 0
+            else len(str(self.sequent))
+        )
+        inference_line = "-" * inference_line_length + f" ({self.inference})\n"
+        return inference_line + str(self.sequent)
+
     def get_children_sequent_list(self) -> List[Sequent]:
         return list(map(lambda s: s.sequent, self.children))
 
