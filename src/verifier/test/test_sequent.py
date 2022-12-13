@@ -33,3 +33,10 @@ def test_is_axiom(sequent: Sequent, expected: bool):
 )
 def test_is_equal_to(sequent1: Sequent, sequent2: Sequent, expected: bool):
     assert sequent1.is_equal_to(sequent2) == expected
+
+
+@pytest.mark.parametrize(
+    ("sequent", "expected"), [(Sequent({Formula("A"), Formula("!(B)")}, {Formula("C")}), "A, !B |- C")]
+)
+def test_to_string(sequent: Sequent, expected: str):
+    assert str(sequent) == expected

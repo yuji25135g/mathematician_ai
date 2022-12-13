@@ -51,3 +51,8 @@ from Node import Node
 def test_get_children_sequent_list(node: Node, expected: List[Sequent]):
     result = node.get_children_sequent_list()
     assert all(result[i].is_equal_to(expected[i]) for i in range(len(result)))
+
+
+@pytest.mark.parametrize(("node", "expected"), [(Node(Sequent({Formula("A")}, {Formula("A")})), "------ (AX)\nA |- A")])
+def test_to_string(node: Node, expected: str):
+    assert str(node) == expected

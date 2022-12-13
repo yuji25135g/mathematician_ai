@@ -40,3 +40,8 @@ def test_eq(formula1, formula2, expected):
 )
 def test_get_top_terms(formula: Formula, result: Tuple[List[str], str]):
     assert formula.get_top_terms() == result
+
+
+@pytest.mark.parametrize(("formula", "result"), [(Formula("((A)>(!(B)))&((C)|(D))"), "(A -> (!B)) & (C | D)")])
+def test_to_str(formula: Formula, result: str):
+    assert str(formula) == result
