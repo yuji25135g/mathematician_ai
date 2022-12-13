@@ -1,4 +1,5 @@
 from typing import List, Tuple
+import re
 
 
 class Formula:
@@ -10,6 +11,10 @@ class Formula:
 
     def __eq__(self, other: "Formula") -> bool:
         return self.string_formula == other.string_formula
+
+    def __str__(self) -> str:
+        str = self.string_formula.replace(">", " -> ").replace("&", " & ").replace("|", " | ")
+        return re.sub(r"\(([A-Z]+)\)", r"\1", str)
 
     def __hash__(self) -> int:
         return hash(self.string_formula)
