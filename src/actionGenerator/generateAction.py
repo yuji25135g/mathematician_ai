@@ -1,5 +1,6 @@
 import random
 import numpy as np
+import copy
 
 import os, sys
 
@@ -17,8 +18,8 @@ binInf = ["R&", "L|", "L->"]  # 2引数の推論規則
 
 
 def generateState(ls):  # ls=[親シーケント, 推論規則, 引数1, 引数2] を受け取って子のシーケントを生成, 適用できない場合はFalseを返す
-    left_seq = ls[0].left
-    right_seq = ls[0].right
+    left_seq = copy.copy(ls[0].left)
+    right_seq = copy.copy(ls[0].right)
     if ls[1] == "Emp":
         return ls[0]
     elif ls[1] == "LW":
@@ -110,7 +111,7 @@ def randomAction(state):
                 argFml1 = args[0].string_formula
                 argFml2 = args[1].string_formula
 
-        elif actionInf == "R->":
+        elif actionInf == "R->":  # R->とR>は同じ？？
             if len(state.left) >= 1 & len(state.right) >= 1:
                 soundness = True
                 argFml1 = random.choice(list(state.left)).string_formula
