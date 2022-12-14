@@ -12,6 +12,7 @@ from converter.seq2num import seq2num
 
 from collections import defaultdict
 import numpy as np
+import csv
 
 # R->とR>揃えよう　参照：generateAction
 InferenceStr: TypeAlias = Literal[
@@ -164,6 +165,9 @@ for episode in range(episodes):
                 print("Input REWARD")
                 reward = int(input())
                 nextState.reward = reward
+                with open("theorem.csv", "a") as f:
+                    writer = csv.writer(f)
+                    writer.writerow([nextState.state[0], reward, proofStrList])
             else:
                 reward = nextState.reward
 
@@ -171,7 +175,7 @@ for episode in range(episodes):
         print(state.probs)
         print(state.q)
         # doneになってから10回更新したら終了
-        if count == 10:
+        if count == 5:
             proofList.append([nextState])
             proofStrList.append([nextState.state[0].__str__()])
             print(proofStrList)
