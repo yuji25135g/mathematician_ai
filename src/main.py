@@ -15,7 +15,7 @@ import numpy as np
 import csv
 
 # csvファイルの生成
-isFile = os.path.isfile("src/theorem.csv")
+isFile = os.path.isfile("theorem.csv")
 if not isFile:
     with open("theorem.csv", "a") as f:
         writer = csv.writer(f)
@@ -104,17 +104,16 @@ class State:
         target = reward + self.gamma * next_q_max
         self.q[actionIndex] += (target - self.q[actionIndex]) * self.alpha
 
-        self.probs = greedy_probs(self.q, self.epsilon)
+        self.probs = self.greedy_probs()
 
+    def greedy_probs(self):
+        actionSize = len(self.q)
+        max_action = np.argmax(self.q)
 
-def greedy_probs(q: List[float], epsilon: float = 0):
-    actionSize = len(q)
-    max_action = np.argmax(q)
-
-    base_prob = epsilon / actionSize
-    action_probs = [base_prob for i in range(actionSize)]
-    action_probs[max_action] += 1 - epsilon
-    return action_probs
+        base_prob = self.epsilon / actionSize
+        action_probs = [base_prob for i in range(actionSize)]
+        action_probs[max_action] += 1 - self.epsilon
+        return action_probs
 
 
 episodes = 10
