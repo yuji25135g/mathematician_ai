@@ -81,12 +81,13 @@ class State:
         self.q: List[float] = [0]
 
         self.nextStates: Dict[Tuple[float], "State"] = {}
+        self.reward: Optional[float] = None
 
     def update(
         self,
         actionIndex: int,
         nextState: "State",
-        reward: int = 0,
+        reward: float = 0,
     ):
         next_qs = nextState.q
         next_q_max = max(next_qs)
@@ -107,7 +108,7 @@ def greedy_probs(q: List[float], epsilon: float = 0):
     return action_probs
 
 
-episodes = 1
+episodes = 10
 initialState = State([Sequent({Formula("A")}, {Formula("A")})], seq2num(Sequent({Formula("A")}, {Formula("A")})))
 for episode in range(episodes):
     state: State = initialState
@@ -127,18 +128,18 @@ for episode in range(episodes):
             generatedState = [generateState(generateStateArg)]
             generatedStateNum = tuple(seq2num(generatedState[0]))  # 一本道じゃなくなったら破綻する
 
-            # 生成したStateからnextStateを作る
-            if generatedStateNum in state.nextStates.keys():
-                nextState = state.nextStates[generatedStateNum]
-            elif generatedStateNum == state.stateNum:
-                nextState = state
-            else:
-                nextState = State(generatedState, generatedStateNum)
-                state.nextStates[generatedStateNum] = nextState
-
-            if nextState != False:  # 適用できるかチェック
-                if checkLength(nextState.state[0]):  # 長さのチェック.ここも一本道じゃなくなったら破綻
+            if generatedState[0] != False:  # 適用できるかチェック
+                if checkLength(generatedState[0]):  # 長さのチェック.ここも一本道じゃなくなったら破綻
                     break  # 問題がなければ終了
+
+        # 生成したStateからnextStateを作る
+        if generatedStateNum in state.nextStates.keys():
+            nextState = state.nextStates[generatedStateNum]
+        elif generatedStateNum == state.stateNum:
+            nextState = state
+        else:
+            nextState = State(generatedState, generatedStateNum)
+            state.nextStates[generatedStateNum] = nextState
 
         # 選ばれたactionが新しかったら先頭に加える
         actionCount = 0
@@ -157,15 +158,20 @@ for episode in range(episodes):
 
         if len(nextState.state) == 1:
             count += 1
-            print("---")
-            print(nextState.state[0])
-            print("Input REWARD")
-            reward = int(input())
+            if nextState.reward == None:
+                print("---")
+                print(nextState.state[0])
+                print("Input REWARD")
+                reward = int(input())
+                nextState.reward = reward
+            else:
+                reward = nextState.reward
+
         state.update(actionIndex, nextState, reward)
         print(state.probs)
         print(state.q)
         # doneになってから10回更新したら終了
-        if count == 2:
+        if count == 10:
             proofList.append([nextState])
             proofStrList.append([nextState.state[0].__str__()])
             print(proofStrList)
