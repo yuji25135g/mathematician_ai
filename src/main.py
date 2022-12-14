@@ -14,6 +14,14 @@ from collections import defaultdict
 import numpy as np
 import csv
 
+# csvファイルの生成
+isFile = os.path.isfile("src/theorem.csv")
+if not isFile:
+    with open("theorem.csv", "a") as f:
+        writer = csv.writer(f)
+        writer.writerow(["theorem", "reward", "proof"])
+
+
 # R->とR>揃えよう　参照：generateAction
 InferenceStr: TypeAlias = Literal[
     "LW", "RW", "LC", "RC", "LX", "RX", "LF", "RT", "L&", "R&", "L|", "R|", "L>", "R>", "L!", "R!", "AX", "Emp"
@@ -175,7 +183,7 @@ for episode in range(episodes):
         print(state.probs)
         print(state.q)
         # doneになってから10回更新したら終了
-        if count == 5:
+        if count == 10:
             proofList.append([nextState])
             proofStrList.append([nextState.state[0].__str__()])
             print(proofStrList)
