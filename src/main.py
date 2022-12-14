@@ -79,7 +79,7 @@ class State:
     ):
         self.gamma = 0.9
         self.alpha = 0.8
-        self.epsilon = 0.3
+        self.epsilon = 0.9
 
         self.state = sequentList
         self.stateNum = stateNum
