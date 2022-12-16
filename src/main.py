@@ -13,6 +13,10 @@ from converter.seq2num import seq2num
 from collections import defaultdict
 import numpy as np
 import csv
+import datetime
+
+# 現在時刻の取得
+timeStamp = datetime.datetime.now()
 
 # csvファイルの生成
 isFile = os.path.isfile("theorem.csv")
@@ -89,7 +93,7 @@ class State:
         self.probs: List[float] = [1.0]
         self.q: List[float] = [0]
 
-        self.nextStates: Dict[Tuple[float], "State"] = {}
+        self.nextStates: List["State"] = []
         self.reward: Optional[float] = None
 
     def update(
@@ -128,33 +132,33 @@ for episode in range(episodes):
         # 適切なActionとNextStateを決定する
         while True:
             actionIndex: int = np.random.choice(np.arange(len(state.actions)), p=state.probs)
-            action: Action = state.actions[actionIndex]
+            action: Action = state.actions[
+                actionIndex
+            ]  # Actionインスタンスを作ってるからgenerateUnActionが使いづらい #generateUnActionもAction型にする?
             if action == "random":
                 randAction = randomAction(state.state[0])
                 action = Action(randAction[0], randAction[1], randAction[2])  # 1,2がFormula型ではなく、str
             generateStateArg = state.state + action.list
             generatedState = [generateState(generateStateArg)]
-            generatedStateNum = tuple(seq2num(generatedState[0]))  # 一本道じゃなくなったら破綻する
 
             if generatedState[0] != False:  # 適用できるかチェック
                 if checkLength(generatedState[0]):  # 長さのチェック.ここも一本道じゃなくなったら破綻
                     break  # 問題がなければ終了
 
-        # 生成したStateからnextStateを作る
-        if generatedStateNum in state.nextStates.keys():
-            nextState = state.nextStates[generatedStateNum]
-        elif generatedStateNum == state.stateNum:
-            nextState = state
-        else:
-            nextState = State(generatedState, generatedStateNum)
-            state.nextStates[generatedStateNum] = nextState
-
         # 選ばれたactionが新しかったら先頭に加える
         actionCount = 0
+        generatedStateNum = tuple(seq2num(generatedState[0]))  # 一本道じゃなくなったら破綻する
         for i in range(0, len(state.actions) - 1):
             if action.actionNum != state.actions[i].actionNum:
                 actionCount += 1
+            else:
+                nextState = state.nextStates[i]
+                break
         if actionCount == len(state.actions) - 1:
+            if generatedStateNum == state.stateNum:
+                nextState = state
+            nextState = State(generatedState, generatedStateNum)
+            state.nextStates.insert(0, nextState)
             state.actions.insert(0, action)
             state.q.insert(0, 0)
             state.probs.insert(0, 0)
@@ -164,6 +168,7 @@ for episode in range(episodes):
         proofList.append([state, action])
         proofStrList.append([state.state[0].__str__(), action.list])  # ここも一本道じゃなくなったら破綻
 
+        # 報酬設定
         if len(nextState.state) == 1:
             count += 1
             if nextState.reward == None:
@@ -179,6 +184,15 @@ for episode in range(episodes):
                 reward = nextState.reward
 
         state.update(actionIndex, nextState, reward)
+        with open("../" + timeStamp.strftime("%Y-%m-%d_%H-%M-%S") + ".csv", "a") as f2:
+            writer = csv.writer(f2)
+            writer.writerow(
+                [
+                    state.state[0],
+                    ",".join((str(n) for n in state.probs[:-1])),
+                    "_".join(list(map(lambda x: x.state[0].__str__(), state.nextStates))),
+                ]
+            )
         print(state.probs)
         print(state.q)
         # doneになってから10回更新したら終了
