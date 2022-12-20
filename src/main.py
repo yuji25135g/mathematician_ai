@@ -15,8 +15,6 @@ import numpy as np
 import csv
 import datetime
 
-# 現在時刻の取得
-timeStamp = datetime.datetime.now()
 
 # csvファイルの生成
 isFile = os.path.isfile("theorem.csv")
@@ -182,7 +180,7 @@ for episode in range(episodes):
                 reward = nextState.reward
 
         state.update(actionIndex, nextState, reward)
-        with open("../" + timeStamp.strftime("%Y-%m-%d_%H-%M-%S") + ".csv", "a") as f2:
+        with open("../" + "visualizer.csv", "a") as f2:
             writer = csv.writer(f2)
             writer.writerow(
                 [
