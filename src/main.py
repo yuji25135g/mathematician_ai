@@ -28,6 +28,7 @@ if not isFile:
 
 
 episodes = 1
+depth = 10
 initialState = State([Sequent({Formula("A")}, {Formula("A")})], seq2num(Sequent({Formula("A")}, {Formula("A")})))
 for episode in range(episodes):
     state: State = initialState
@@ -104,12 +105,9 @@ for episode in range(episodes):
             )
         print(state.probs)
         print(state.q)
-        # doneになってからn回更新したら終了
-        if count == 10:
+        if count == depth:
             proofList.append([nextState])
             proofStrList.append([nextState.state[0].__str__()])
             print(proofStrList)
             break
         state = nextState
-
-# %%
