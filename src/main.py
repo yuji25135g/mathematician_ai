@@ -23,8 +23,8 @@ if not isFile:
         writer.writerow(["theorem", "reward", "proof"])
 
 
-episodes = 1
-depth = 10
+episodes = 1  # 探索回数
+depth = 10  # 証明木の深さ
 initialState = State([Sequent({Formula("A")}, {Formula("A")})], seq2num(Sequent({Formula("A")}, {Formula("A")})))
 for episode in range(episodes):
     state: State = initialState
