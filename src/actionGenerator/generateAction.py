@@ -13,7 +13,7 @@ fml_maxLen = 8  # 各論理式に出現する命題変数の総数の上限
 
 AP = ["A", "B", "C"]  # 命題変数のリスト
 
-unInf = ["Emp", "LW", "RW", "L&", "R|", "R->", "L!", "R!"]  # 1引数の推論規則, Empは恒等action
+unInf = ["Emp", "LW", "RW", "L&", "R|", "R>", "L!", "R!"]  # 1引数の推論規則, Empは恒等action
 binInf = ["R&", "L|", "L->"]  # 2引数の推論規則
 
 
@@ -49,7 +49,7 @@ def generateState(ls):  # ls=[親シーケント, 推論規則, 引数1, 引数2
         else:
             return False
 
-    elif ls[1] == "R->":
+    elif ls[1] == "R>":
         if (Formula(ls[2]) in left_seq) & (Formula(ls[3]) in right_seq):
             conc = "(" + ls[2] + ")->(" + ls[3] + ")"
             right_seq.add(Formula(conc))
@@ -111,7 +111,7 @@ def randomAction(state):
                 argFml1 = args[0].string_formula
                 argFml2 = args[1].string_formula
 
-        elif actionInf == "R->":  # R->とR>は同じ？？
+        elif actionInf == "R>":
             if len(state.left) >= 1 & len(state.right) >= 1:
                 soundness = True
                 argFml1 = random.choice(list(state.left)).string_formula

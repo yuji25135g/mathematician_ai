@@ -45,7 +45,7 @@ inferenceTuple: Tuple[str] = (
     "L|",
     "R|",
     "L>",
-    "R->",
+    "R>",
     "L!",
     "R!",
     "AX",
