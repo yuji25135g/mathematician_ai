@@ -1,17 +1,13 @@
-from typing import List, Tuple, TypeAlias, Literal, Dict, Optional, Union
-import copy
 import os, sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from actionGenerator.generateAction import randomAction, generateState, checkLength
-from actionGenerator.displaySequent import displaySeq
 from verifier.Formula import Formula
 from verifier.Sequent import Sequent
 from converter.seq2num import seq2num
 from reinforcementLearning.Action import Action
 from reinforcementLearning.State import State
 
-from collections import defaultdict
 import numpy as np
 import csv
 
