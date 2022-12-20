@@ -15,6 +15,9 @@ from collections import defaultdict
 import numpy as np
 import csv
 
+# 複雑な定理に拡張するとき
+# generatedState[0]やstate.state[0]などSequentのListになっているものは修正する
+
 
 # csvファイルの生成
 isFile = os.path.isfile("theorem.csv")
@@ -41,17 +44,17 @@ for episode in range(episodes):
             ]  # Actionインスタンスを作ってるからgenerateUnActionが使いづらい #generateUnActionもAction型にする?
             if action == "random":
                 randAction = randomAction(state.state[0])
-                action = Action(randAction[0], randAction[1], randAction[2])  # 1,2がFormula型ではなく、str
+                action = Action(randAction[0], randAction[1], randAction[2])
             generateStateArg = state.state + action.list
             generatedState = [generateState(generateStateArg)]
 
             if generatedState[0] != False:  # 適用できるかチェック
-                if checkLength(generatedState[0]):  # 長さのチェック.ここも一本道じゃなくなったら破綻
+                if checkLength(generatedState[0]):
                     break  # 問題がなければ終了
 
         # 選ばれたactionが新しかったら先頭に加える
         actionCount = 0
-        generatedStateNum = tuple(seq2num(generatedState[0]))  # 一本道じゃなくなったら破綻する
+        generatedStateNum = tuple(seq2num(generatedState[0]))
         for i in range(0, len(state.actions) - 1):
             if action.actionNum != state.actions[i].actionNum:
                 actionCount += 1
@@ -72,7 +75,7 @@ for episode in range(episodes):
 
         # 選ばれたactionとstateを保存
         proofList.append([state, action])
-        proofStrList.append([state.state[0].__str__(), action.list])  # ここも一本道じゃなくなったら破綻
+        proofStrList.append([state.state[0].__str__(), action.list])
 
         # 報酬設定
         if len(nextState.state) == 1:
@@ -101,7 +104,7 @@ for episode in range(episodes):
             )
         print(state.probs)
         print(state.q)
-        # doneになってから10回更新したら終了
+        # doneになってからn回更新したら終了
         if count == 10:
             proofList.append([nextState])
             proofStrList.append([nextState.state[0].__str__()])
