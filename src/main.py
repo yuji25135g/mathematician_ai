@@ -25,8 +25,6 @@ if not isFile:
         writer = csv.writer(f)
         writer.writerow(["theorem", "reward", "proof"])
 
-
-# R->とR>揃えよう　参照：generateAction
 InferenceStr: TypeAlias = Literal[
     "LW", "RW", "LC", "RC", "LX", "RX", "LF", "RT", "L&", "R&", "L|", "R|", "L>", "R>", "L!", "R!", "AX", "Emp"
 ]
