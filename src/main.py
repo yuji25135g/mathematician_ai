@@ -24,7 +24,7 @@ if not isFile:
         writer.writerow(["theorem", "reward", "proof"])
 
 
-episodes = 10
+episodes = 1
 initialState = State([Sequent({Formula("A")}, {Formula("A")})], seq2num(Sequent({Formula("A")}, {Formula("A")})))
 for episode in range(episodes):
     state: State = initialState
@@ -56,12 +56,14 @@ for episode in range(episodes):
             if action.actionNum != state.actions[i].actionNum:
                 actionCount += 1
             else:
+                print("acttion = " + str(i))
                 nextState = state.nextStates[i]
                 break
         if actionCount == len(state.actions) - 1:
             if generatedStateNum == state.stateNum:
                 nextState = state
-            nextState = State(generatedState, generatedStateNum)
+            else:
+                nextState = State(generatedState, generatedStateNum)
             state.nextStates.insert(0, nextState)
             state.actions.insert(0, action)
             state.q.insert(0, 0)
