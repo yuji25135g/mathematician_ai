@@ -23,7 +23,7 @@ if not isFile:
         writer.writerow(["theorem", "reward", "proof"])
 
 
-episodes = 1  # 探索回数
+episodes = 10  # 探索回数
 depth = 10  # 証明木の深さ
 initialState = State([Sequent({Formula("A")}, {Formula("A")})], seq2num(Sequent({Formula("A")}, {Formula("A")})))
 for episode in range(episodes):
@@ -49,17 +49,18 @@ for episode in range(episodes):
                 if checkLength(generatedState[0]):
                     break  # 問題がなければ終了
 
-        # 選ばれたactionが新しかったら先頭に加える
-        actionCount = 0
+        # 選ばれたstateが新しかったら先頭に加える
         generatedStateNum = tuple(seq2num(generatedState[0]))
-        for i in range(0, len(state.actions) - 1):
-            if action.actionNum != state.actions[i].actionNum:
-                actionCount += 1
+        stateCount = 0
+        for i in range(0, len(state.nextStates)):
+            if generatedStateNum != state.nextStates[i].stateNum:
+                stateCount += 1
             else:
-                print("acttion = " + str(i))
                 nextState = state.nextStates[i]
+                actionIndex = i
+                action = state.actions[i]
                 break
-        if actionCount == len(state.actions) - 1:
+        if stateCount == len(state.nextStates):
             if generatedStateNum == state.stateNum:
                 nextState = state
             else:
