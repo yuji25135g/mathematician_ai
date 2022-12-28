@@ -1,5 +1,6 @@
 from typing import Tuple, TypeAlias, Literal, Optional
 from converter.fml2num import fml2num
+from converter.seq2num import seq2num
 
 
 InferenceStr: TypeAlias = Literal[
@@ -29,12 +30,26 @@ inferenceTuple: Tuple[str] = (
 
 
 class Action:
-    def __init__(self, inference: InferenceStr, formula1: Optional[str] = None, formula2: Optional[str] = None):
+    def __init__(
+        self,
+        inference: InferenceStr,
+        seq1: str,
+        seq2: Optional[str],
+        formula1: Optional[str] = None,
+        formula2: Optional[str] = None,
+    ):
         self.inference = inference
+        self.seq1 = seq1
+        self.seq2 = seq2
         self.formula1 = formula1
         self.formula2 = formula2
         self.list = [inference, formula1, formula2]
         infIndex = inferenceTuple.index(inference)
+        numSeq1 = seq2num(seq1)
+        if seq2 == "":
+            numSeq2 = 0
+        else:
+            numSeq2 = seq2num(seq2)
         if formula1 == "":
             numFml1 = 0
         else:
@@ -43,4 +58,4 @@ class Action:
             numFml2 = 0
         else:
             numFml2 = fml2num(self.formula2)
-        self.actionNum = (infIndex, numFml1, numFml2)
+        self.actionNum = (infIndex, numSeq1, numSeq2, numFml1, numFml2)
