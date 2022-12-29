@@ -43,7 +43,7 @@ class Action:
         self.seq2 = seq2
         self.formula1 = formula1
         self.formula2 = formula2
-        self.list = [inference, formula1, formula2]
+        self.list = [inference, seq1.__str__(), seq2.__str__(), formula1, formula2]
         infIndex = inferenceTuple.index(inference)
         numSeq1 = seq2num(seq1)
         if seq2 == "":
