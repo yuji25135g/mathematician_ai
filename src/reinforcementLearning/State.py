@@ -15,6 +15,9 @@ class State:
         self.epsilon = 0.9
 
         self.state = sequentList
+        self.stateStr = []
+        for i in range(len(self.state)):
+            self.stateStr.append(self.state[i].__str__())
         self.stateNum = stateNum
 
         self.actions: List[Union[Action, Literal["random"]]] = ["random"]
