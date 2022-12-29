@@ -1,7 +1,7 @@
 import os, sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from actionGenerator.generateAction import randomAction, generateState, checkLength
+from actionGenerator.generateAction import generateAction
 from verifier.Formula import Formula
 from verifier.Sequent import Sequent
 from converter.seq2num import seq2num
@@ -24,8 +24,11 @@ if not isFile:
 
 
 episodes = 10  # 探索回数
-depth = 10  # 証明木の深さ
-initialState = State([Sequent({Formula("A")}, {Formula("A")})], seq2num(Sequent({Formula("A")}, {Formula("A")})))
+depth = 3  # 証明木の深さ
+initialState = State(
+    [Sequent({Formula("A")}, {Formula("A")}), Sequent({Formula("B")}, {Formula("B")})],
+    seq2num(Sequent({Formula("A")}, {Formula("A")})),
+)
 for episode in range(episodes):
     state: State = initialState
     count: int = 0
@@ -33,24 +36,16 @@ for episode in range(episodes):
     proofStrList = []
 
     while True:
-        # 適切なActionとNextStateを決定する
-        while True:
-            actionIndex: int = np.random.choice(np.arange(len(state.actions)), p=state.probs)
-            action: Action = state.actions[
-                actionIndex
-            ]  # Actionインスタンスを作ってるからgenerateUnActionが使いづらい #generateUnActionもAction型にする?
-            if action == "random":
-                randAction = randomAction(state.state[0])
-                action = Action(randAction[0], randAction[1], randAction[2])
-            generateStateArg = state.state + action.list
-            generatedState = [generateState(generateStateArg)]
-
-            if generatedState[0] != False:  # 適用できるかチェック
-                if checkLength(generatedState[0]):
-                    break  # 問題がなければ終了
+        actionList = []
+        for i in range(len(state.actions) - 1):
+            actionList.append(state.actions[i].list)
+        action, generatedState, done = generateAction(state.state, actionList, state.probs)
+        action = Action(action[0], action[1], action[2], action[3], action[4])
 
         # 選ばれたstateが新しかったら先頭に加える
-        generatedStateNum = tuple(seq2num(generatedState[0]))
+        generatedStateNum = []
+        for i in range(len(generatedState)):
+            generatedStateNum.append(generatedState[i])
         stateCount = 0
         for i in range(0, len(state.nextStates)):
             if generatedStateNum != state.nextStates[i].stateNum:
@@ -73,9 +68,10 @@ for episode in range(episodes):
 
         # 選ばれたactionとstateを保存
         proofList.append([state, action])
-        proofStrList.append([state.state[0].__str__(), action.list])
+        proofStrList.append([state.stateStr, action.list])
 
         # 報酬設定
+        reward = 0
         if len(nextState.state) == 1:
             count += 1
             if nextState.reward == None:
@@ -86,7 +82,7 @@ for episode in range(episodes):
                 nextState.reward = reward
                 with open("theorem.csv", "a") as f:
                     writer = csv.writer(f)
-                    writer.writerow([nextState.state[0], reward, proofStrList])
+                    writer.writerow([nextState.stateStr, reward, proofStrList])
             else:
                 reward = nextState.reward
 
@@ -95,16 +91,16 @@ for episode in range(episodes):
             writer = csv.writer(f2)
             writer.writerow(
                 [
-                    state.state[0],
+                    "_".join(list(map(str, state.stateStr))),
                     ",".join((str(n) for n in state.probs[:-1])),
-                    "_".join(list(map(lambda x: x.state[0].__str__(), state.nextStates))),
+                    "_".join(list(map(lambda x: " $ ".join(map(str, x.stateStr)), state.nextStates))),
                 ]
             )
         print(state.probs)
         print(state.q)
         if count == depth:
             proofList.append([nextState])
-            proofStrList.append([nextState.state[0].__str__()])
+            proofStrList.append([nextState.stateStr])
             print(proofStrList)
             break
         state = nextState
