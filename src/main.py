@@ -91,7 +91,7 @@ for episode in range(episodes):
             writer = csv.writer(f2)
             writer.writerow(
                 [
-                    "_".join(list(map(str, state.stateStr))),
+                    " $ ".join(list(map(str, state.stateStr))),
                     ",".join((str(n) for n in state.probs[:-1])),
                     "_".join(list(map(lambda x: " $ ".join(map(str, x.stateStr)), state.nextStates))),
                 ]
