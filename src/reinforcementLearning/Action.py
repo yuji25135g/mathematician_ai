@@ -1,6 +1,7 @@
 from typing import Tuple, TypeAlias, Literal, Optional
 from converter.fml2num import fml2num
 from converter.seq2num import seq2num
+from verifier.Sequent import Sequent
 
 
 InferenceStr: TypeAlias = Literal[
@@ -33,8 +34,8 @@ class Action:
     def __init__(
         self,
         inference: InferenceStr,
-        seq1: str,
-        seq2: Optional[str],
+        seq1: Sequent,
+        seq2: Sequent,
         formula1: Optional[str] = None,
         formula2: Optional[str] = None,
     ):
@@ -46,10 +47,7 @@ class Action:
         self.list = [inference, seq1.__str__(), seq2.__str__(), formula1, formula2]
         infIndex = inferenceTuple.index(inference)
         numSeq1 = seq2num(seq1)
-        if seq2 == "":
-            numSeq2 = 0
-        else:
-            numSeq2 = seq2num(seq2)
+        numSeq2 = seq2num(seq2)
         if formula1 == "":
             numFml1 = 0
         else:
