@@ -11,10 +11,6 @@ from reinforcementLearning.State import State
 import numpy as np
 import csv
 
-# 複雑な定理に拡張するとき
-# generatedState[0]やstate.state[0]などSequentのListになっているものは修正する
-
-
 # csvファイルの生成
 isFile = os.path.isfile("theorem.csv")
 if not isFile:
@@ -27,7 +23,7 @@ episodes = 10  # 探索回数
 depth = 3  # 証明木の深さ
 initialState = State(
     [Sequent({Formula("A")}, {Formula("A")}), Sequent({Formula("B")}, {Formula("B")})],
-    seq2num(Sequent({Formula("A")}, {Formula("A")})),
+    [seq2num(Sequent({Formula("A")}, {Formula("A")})), seq2num(Sequent({Formula("B")}, {Formula("B")}))],
 )
 for episode in range(episodes):
     state: State = initialState
@@ -45,7 +41,7 @@ for episode in range(episodes):
         # 選ばれたstateが新しかったら先頭に加える
         generatedStateNum = []
         for i in range(len(generatedState)):
-            generatedStateNum.append(generatedState[i])
+            generatedStateNum.append(seq2num(generatedState[i]))
         stateCount = 0
         for i in range(0, len(state.nextStates)):
             if generatedStateNum != state.nextStates[i].stateNum:
