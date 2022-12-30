@@ -18,11 +18,7 @@ def parse(fml):  # 構文解析
                 elif fml[i] == ")":
                     par += -1
                 if par == 0:
-                    if fml[i + 1] == "-":  # 「X->X」のとき
-                        return [fml[i + 1 : i + 3], parse(fml[1:i]), parse(fml[i + 4 : len(fml) - 1])]
-                    else:  # 「X&X」,「X|X」のとき
-                        return [fml[i + 1], parse(fml[1:i]), parse(fml[i + 3 : len(fml) - 1])]
-                    break
+                    return [fml[i + 1], parse(fml[1:i]), parse(fml[i + 3 : len(fml) - 1])]
 
 
 def bfs(*args):  # 幅優先探索
