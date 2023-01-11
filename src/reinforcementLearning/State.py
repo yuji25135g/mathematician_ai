@@ -9,7 +9,7 @@ class State:
         self,
         sequentList: Tuple[Sequent],
         # sequentListから一意に定まるならこれいらない
-        stateNum: Tuple[float],
+        stateNum: Tuple[Tuple[float]],
     ):
         self.gamma = 0.9
         self.alpha = 0.8
@@ -51,5 +51,5 @@ class State:
         action_probs[max_action] += 1 - self.epsilon
         return action_probs
 
-    def equals(self, other: "State") -> bool:
-        return sorted(self.stateNum) == sorted(other.stateNum)
+    def equals(self, other: Tuple[Tuple[float]]) -> bool:
+        return sorted(self.stateNum) == sorted(other)
