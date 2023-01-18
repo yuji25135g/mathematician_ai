@@ -27,7 +27,7 @@ def seq2num(seq):
     for i in range(len(list(seq.right))):
         fml = list(seq.right)[i].string_formula
         rightFmlNums[i] = fml2num(fml)
-    return leftFmlNums + rightFmlNums
+    return tuple(leftFmlNums + rightFmlNums)
 
 
 # 以下実行例 理解したら消してください
