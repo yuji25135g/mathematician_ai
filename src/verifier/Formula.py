@@ -21,7 +21,7 @@ class Formula:
         return hash(self.string_formula)
 
     def to_real_num(self) -> float:
-        return FormulaTree.create_from_formula(self).to_real_num()
+        return FormulaTree.create_from_string(self.string_formula).to_real_num()
 
     # TODO: FormulaTreeに移行
     def get_top_terms(self) -> Tuple[List[str], str]:

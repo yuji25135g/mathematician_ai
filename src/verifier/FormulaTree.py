@@ -1,5 +1,4 @@
 from typing import List, Union, TypeAlias, Literal, Optional, Dict
-from Formula import Formula
 from collections import deque
 
 Operator: TypeAlias = Literal["!", "&", "|", ">"]
@@ -32,36 +31,32 @@ class FormulaTree:
         return float("0." + real_num_str)
 
     @classmethod
-    def create_from_formula(cls, formula: Formula) -> "FormulaTree":
+    def create_from_string(cls, string_formula: str) -> "FormulaTree":
         # formulaが「X」のとき
-        if len(formula.string_formula) == 1:
-            return FormulaTree([formula.string_formula])
+        if len(string_formula) == 1:
+            return FormulaTree([string_formula])
         # formulaが「!X」のとき
-        if formula.string_formula[0] == "!":
+        if string_formula[0] == "!":
             return FormulaTree(
                 [
-                    FormulaTree.create_from_formula(
-                        Formula(formula.string_formula[2 : len(formula.string_formula) - 1])
-                    ),
+                    FormulaTree.create_from_string(string_formula[2 : len(string_formula) - 1]),
                 ],
                 "!",
             )
         par_count = 0  # 「(」ひとつにつき+1、 「)」ひとつにつき-1
         operator_idx = 0  # 演算子の位置
-        for i in range(len(formula.string_formula)):
-            if formula.string_formula[i] == "(":
+        for i in range(len(string_formula)):
+            if string_formula[i] == "(":
                 par_count += 1
-            elif formula.string_formula[i] == ")":
+            elif string_formula[i] == ")":
                 par_count += -1
             if par_count == 0:
                 operator_idx = par_count + 1
 
         return FormulaTree(
             [
-                FormulaTree.create_from_formula(Formula(formula.string_formula[1 : operator_idx - 1])),
-                FormulaTree.create_from_formula(
-                    Formula(formula.string_formula[operator_idx + 2 : len(formula.string_formula) - 1])
-                ),
+                FormulaTree.create_from_string(string_formula[1 : operator_idx - 1]),
+                FormulaTree.create_from_string(string_formula[operator_idx + 2 : len(string_formula) - 1]),
             ],
-            formula.string_formula[operator_idx],
+            string_formula[operator_idx],
         )
