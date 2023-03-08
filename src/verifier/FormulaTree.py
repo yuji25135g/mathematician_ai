@@ -3,7 +3,7 @@ from collections import deque
 
 Operator: TypeAlias = Literal["!", "&", "|", ">"]
 
-SYMBOL_LIST = ["A", "B", "C", "D", "E", "!", "|", "&", ">"]
+SYMBOL_LIST = ["!", "|", "&", ">", "A", "B", "C", "D", "E"]
 NUM_LIST = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 SYMBOL_NUM_MAP: Dict[str, str] = dict(zip(SYMBOL_LIST, NUM_LIST))
 
