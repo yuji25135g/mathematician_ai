@@ -1,6 +1,4 @@
 from verifier.Formula import Formula
-from verifier.Sequent import Sequent
-from converter.fml2num import fml2num
 
 maxSeqSize = 10
 # シーケントの片辺の論理式の数の上限
@@ -22,11 +20,11 @@ def seq2num(seq):
     leftFmlNums = [0] * maxSeqSize
     rightFmlNums = [0] * maxSeqSize
     for i in range(len(list(seq.left))):
-        fml = list(seq.left)[i].string_formula
-        leftFmlNums[i] = fml2num(fml)
+        fml = Formula(list(seq.left)[i].string_formula)
+        leftFmlNums[i] = fml.to_real_num()
     for i in range(len(list(seq.right))):
-        fml = list(seq.right)[i].string_formula
-        rightFmlNums[i] = fml2num(fml)
+        fml = Formula(list(seq.right)[i].string_formula)
+        rightFmlNums[i] = fml.to_real_num()
     return leftFmlNums + rightFmlNums
 
 

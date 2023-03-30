@@ -25,6 +25,7 @@ initialState = State(
     [Sequent({Formula("A")}, {Formula("A")}), Sequent({Formula("B")}, {Formula("B")})],
     [seq2num(Sequent({Formula("A")}, {Formula("A")})), seq2num(Sequent({Formula("B")}, {Formula("B")}))],
 )
+
 for episode in range(episodes):
     state: State = initialState
     count: int = 0
