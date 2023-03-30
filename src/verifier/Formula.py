@@ -1,6 +1,6 @@
 from typing import List, Tuple
 import re
-from FormulaTree import FormulaTree
+from verifier.FormulaTree import FormulaTree
 
 
 class Formula:
