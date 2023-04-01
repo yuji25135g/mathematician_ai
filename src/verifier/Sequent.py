@@ -33,4 +33,4 @@ class Sequent:
         for i, right_formula in enumerate(self.right):
             right_num_list[i] = right_formula.to_real_num()
 
-        return left_formula + right_formula
+        return tuple(left_num_list + right_num_list)
