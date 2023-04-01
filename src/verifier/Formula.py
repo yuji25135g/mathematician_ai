@@ -1,5 +1,6 @@
 from typing import List, Tuple
 import re
+from verifier.FormulaTree import FormulaTree
 
 
 class Formula:
@@ -19,13 +20,14 @@ class Formula:
     def __hash__(self) -> int:
         return hash(self.string_formula)
 
+    def to_real_num(self) -> float:
+        return FormulaTree.create_from_string(self.string_formula).to_real_num()
+
+    # TODO: FormulaTreeに移行
     def get_top_terms(self) -> Tuple[List[str], str]:
         if self.string_formula[0] == "!":
             return [self.string_formula[2 : len(self.string_formula) - 1]], "!"
-        res = []
-        tmp_idx = 0
-        s_num = 0
-        e_num = 0
+        res, tmp_idx, s_num, e_num = [], 0, 0, 0
         for i, s in enumerate(self.string_formula):
             if s == "(":
                 s_num += 1

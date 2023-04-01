@@ -4,7 +4,6 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from actionGenerator.generateAction import generateAction
 from verifier.Formula import Formula
 from verifier.Sequent import Sequent
-from converter.seq2num import seq2num
 from reinforcementLearning.Action import Action
 from reinforcementLearning.State import State
 
@@ -25,11 +24,14 @@ allStatesLen = 0
 
 episodes = 10  # 探索回数
 depth = 3  # 証明木の深さ
-initialStateNum = (seq2num(Sequent({Formula("A")}, {Formula("A")})), seq2num(Sequent({Formula("B")}, {Formula("B")})))
+seq_A = Sequent({Formula("A")}, {Formula("A")})
+seq_B = Sequent({Formula("B")}, {Formula("B")})
+initialStateNum = (seq_A.to_real_num_list(), seq_B.to_real_num_list())
 initialState = State(
     [Sequent({Formula("A")}, {Formula("A")}), Sequent({Formula("B")}, {Formula("B")})],
     initialStateNum,
 )
+
 allStates[initialStateNum] = initialState
 allStatesLen += 1
 
@@ -49,7 +51,7 @@ for episode in range(episodes):
         # Stateの数値変換
         generatedStateNum = []
         for i in range(len(generatedState)):
-            generatedStateNum.append(seq2num(generatedState[i]))
+            generatedStateNum.append(generatedState[i].to_real_num_list())
         generatedStateNum = tuple(generatedStateNum)
 
         # 選ばれたstateが新しかったら先頭に加える
