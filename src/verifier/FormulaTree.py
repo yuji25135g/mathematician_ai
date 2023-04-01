@@ -51,12 +51,11 @@ class FormulaTree:
             elif string_formula[i] == ")":
                 par_count += -1
             if par_count == 0:
-                operator_idx = par_count + 1
-
-        return FormulaTree(
-            [
-                FormulaTree.create_from_string(string_formula[1 : operator_idx - 1]),
-                FormulaTree.create_from_string(string_formula[operator_idx + 2 : len(string_formula) - 1]),
-            ],
-            string_formula[operator_idx],
-        )
+                operator_idx = i + 1
+                return FormulaTree(
+                    [
+                        FormulaTree.create_from_string(string_formula[1 : operator_idx - 1]),
+                        FormulaTree.create_from_string(string_formula[operator_idx + 2 : len(string_formula) - 1]),
+                    ],
+                    string_formula[operator_idx],
+                )
