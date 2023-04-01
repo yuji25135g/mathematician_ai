@@ -1,6 +1,4 @@
 from typing import Tuple, TypeAlias, Literal, Optional
-from converter.fml2num import fml2num
-from converter.seq2num import seq2num
 from verifier.Sequent import Sequent
 from verifier.Formula import Formula
 
@@ -47,8 +45,8 @@ class Action:
         self.formula2 = Formula(formula2)
         self.list = [inference, seq1.__str__(), seq2.__str__(), formula1, formula2]
         infIndex = inferenceTuple.index(inference)
-        numSeq1 = seq2num(seq1)
-        numSeq2 = seq2num(seq2)
+        numSeq1 = seq1.to_real_num_list()
+        numSeq2 = seq2.to_real_num_list()
         if formula1 == "":
             numFml1 = 0
         else:
